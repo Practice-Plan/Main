@@ -1,0 +1,69 @@
+[package]
+name = "base-framework"
+version = "0.1.0"
+edition = "2021"
+authors = ["Framework Team"]
+description = "A high-performance, low-overhead base framework with monitoring and middleware capabilities"
+license = "MIT"
+
+[lib]
+name = "base_framework"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "PPC"
+path = "src/main.rs"
+
+[dependencies]
+# Logging framework
+log = "0.4"
+env_logger = "0.10"
+
+# Cross-platform support
+cfg-if = "1.0"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Serialization support (for config and logging)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Time handling
+chrono = "0.4"
+
+# Concurrency support
+parking_lot = "0.12"
+crossbeam-channel = "0.5"
+
+# FFI support
+libc = "0.2"
+
+# DLL dynamic loading
+libloading = "0.8"
+
+# Command-line parsing
+clap = { version = "4.4", features = ["derive"] }
+
+# Database
+rusqlite = { version = "0.30", features = ["bundled"] }
+
+[dev-dependencies]
+# Testing utilities
+criterion = "0.5"
+tempfile = "3.8"
+
+[[bench]]
+name = "benchmark"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = 'abort'
+
+[profile.dev]
+opt-level = 0
+debug = true
